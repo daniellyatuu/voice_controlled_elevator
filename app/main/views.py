@@ -48,3 +48,19 @@ class GetAudioView(View):
             except Exception as e:
                 print('error', e)
                 return HttpResponse(e)
+
+class HomeView(View):
+    template_name = 'main/home.html'
+    def get(self, request, *args, **kwargs):
+        key = self.request.GET.get('key', '')
+
+        if key:
+            voice = 'voice/pre/' + key + '.mpeg'
+            playsound.playsound(voice)
+
+        context = {}
+        context['title'] = 'Home'
+        context['buttons'] = range(1, 7)
+
+
+        return render(request, self.template_name, context)
